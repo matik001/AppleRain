@@ -11,26 +11,18 @@ from gym.spaces import Discrete, Box, Dict
 
 from game import AppleRainGame, MoveType
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 700
-SCREEN_TITLE = "Super Apple Rain"
-
 
 class AppleRainEnv(Env):
-    def __init__(self):
+    def __init__(self, window:Window):
         self.game: AppleRainGame = None
         self.action_space = Discrete(3)
-        # self.observation_space = Dict({
-        #     'player_pos': Box(0, 1, (2,)),
-        #     'apples': Box(0, 1, (10, 2))
-        # })
         self.observation_space = Box(0, 1, (10, 2))
-        self.window: Window = None
+        self.window: Window = window
 
     def step(self, action: int):
         score = self.game.score
-        # if self.window:
-        #     self.window.dispatch_events()
+
+        self.window.dispatch_events()
         self.game.move_player(MoveType(action))
         self.game.on_update(1 / 60)
         reward = self.game.score - score
@@ -39,13 +31,8 @@ class AppleRainEnv(Env):
         info = self._get_info()
         return obs, reward, terminated, info
 
-    # def _game_to_obs(self):
-    #     return {
-    #         'player_pos': np.array(self.game.get_player_pos()),
-    #         'apples': np.array(self.game.get_apples_pos())
-    #     }
     def _normalize_pos(self, pos: Tuple[float, float]):
-        return [pos[0] / SCREEN_WIDTH, pos[1] / SCREEN_HEIGHT]
+        return [pos[0] / self.window.width, pos[1] / self.window.height]
 
     def _game_to_obs(self):
         obs_arr = [self._normalize_pos(self.game.get_player_pos())]
@@ -59,9 +46,7 @@ class AppleRainEnv(Env):
         return {}
 
     def reset(self):
-        if not self.window:
-            self.window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-        self.game = AppleRainGame(SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.game = AppleRainGame(self.window.width, self.window.height)
         self.game.setup()
         self.window.show_view(self.game)
 

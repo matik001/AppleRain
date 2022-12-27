@@ -1,13 +1,3 @@
-"""
-Sprite Bullets
-
-Simple program to show basic sprite usage.
-
-Artwork from https://kenney.nl
-
-If Python and Arcade are installed, this example can be run from the command line with:
-python -m arcade.examples.sprite_bullets
-"""
 import random
 from enum import Enum, IntEnum
 from typing import Tuple, cast
@@ -84,23 +74,6 @@ class AppleRainGame(arcade.View):
             self.apples.draw_hit_boxes(line_thickness=3)
             self.player.draw_hit_box((255, 255, 255), 3)
         arcade.draw_text(f"Score: {self.score}", 10, 20, arcade.color.WHITE, 14)
-
-    def on_key_press(self, symbol: int, modifiers: int):
-        if symbol != arcade.key.LEFT and symbol != arcade.key.RIGHT:
-            return
-        dx = AppleRainGame.PLAYER_SPEED
-        if symbol == arcade.key.LEFT:
-            dx = -dx
-        self.player.change_x += dx
-    def on_key_release(self, symbol: int, _modifiers: int):
-        if symbol != arcade.key.LEFT and symbol != arcade.key.RIGHT:
-            return
-
-        dx = AppleRainGame.PLAYER_SPEED
-        if symbol == arcade.key.RIGHT:
-            dx = -dx
-        self.player.change_x += dx
-
 
     def _create_apple(self):
         self.amount_of_created_apples += 1
