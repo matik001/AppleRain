@@ -10,8 +10,9 @@ MODEL_PATH = path.join('models', f'model')
 LOGS_PATH = path.join('logs')
 
 SCREEN_WIDTH = 1600
-GAME_WIDTH = SCREEN_WIDTH//2
 SCREEN_HEIGHT = 700
+GAME_WIDTH = SCREEN_WIDTH//2
+GAME_HEIGHT = SCREEN_HEIGHT
 SCREEN_TITLE = "Apple Rain by Matik"
 
 
@@ -19,7 +20,7 @@ class GameWindow:
     def __init__(self) -> None:
         super().__init__()
         self.window = Window(GAME_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, center_window=True)
-        self.env = AppleRainEnv(self.window)
+        self.env = AppleRainEnv(self.window, GAME_WIDTH, GAME_HEIGHT)
         self.model = self._load_or_create_model()
         self.next_move = 0
 
@@ -43,6 +44,8 @@ class GameWindow:
                 action, _ = self.model.predict(obs)
             else:
                 action = self.next_move+1
+
+            self.window.dispatch_events()
             obs, reward, done, info = self.env.step(action)
             score += reward
             self.env.render(3000)

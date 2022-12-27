@@ -13,16 +13,17 @@ from game import AppleRainGame, MoveType
 
 
 class AppleRainEnv(Env):
-    def __init__(self, window:Window):
+    def __init__(self, window:Window, GAME_WIDTH:int, GAME_HEIGHT:int):
         self.game: AppleRainGame = None
         self.action_space = Discrete(3)
         self.observation_space = Box(0, 1, (10, 2))
         self.window: Window = window
+        self.GAME_WIDTH = GAME_WIDTH
+        self.GAME_HEIGHT = GAME_HEIGHT
 
     def step(self, action: int):
         score = self.game.score
 
-        self.window.dispatch_events()
         self.game.move_player(MoveType(action))
         self.game.on_update(1 / 60)
         reward = self.game.score - score
@@ -32,7 +33,7 @@ class AppleRainEnv(Env):
         return obs, reward, terminated, info
 
     def _normalize_pos(self, pos: Tuple[float, float]):
-        return [pos[0] / self.window.width, pos[1] / self.window.height]
+        return [pos[0] / self.GAME_WIDTH, pos[1] / self.GAME_HEIGHT]
 
     def _game_to_obs(self):
         obs_arr = [self._normalize_pos(self.game.get_player_pos())]
@@ -46,7 +47,7 @@ class AppleRainEnv(Env):
         return {}
 
     def reset(self):
-        self.game = AppleRainGame(self.window.width, self.window.height)
+        self.game = AppleRainGame(self.GAME_WIDTH, self.GAME_HEIGHT)
         self.game.setup()
         self.window.show_view(self.game)
 
