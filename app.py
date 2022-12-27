@@ -19,7 +19,7 @@ def main():
     env = AppleRainEnv()
 
     def train_and_save_model(model):
-        model.learn(total_timesteps=3000000)
+        model.learn(total_timesteps=1000000)
         model.save(MODEL_PATH)
 
     if not path.exists(MODEL_PATH + '.zip'):
@@ -28,11 +28,11 @@ def main():
     else:
         model = PPO.load(MODEL_PATH)
         model.set_env(env)
-    #     train_and_save_model(model)
+        # for i in range(10):
+        #     print(f"----------------------- {i} ------------------")
+        #     train_and_save_model(model)
 
-    seed(1)
-
-    for i in range(1):
+    for i in range(5):
         done = False
         score = 0
         obs = env.reset()
