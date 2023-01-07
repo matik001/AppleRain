@@ -13,7 +13,7 @@ Najprościej jest używając managera paczek Anaconda:
 ```
 conda create -n <environment-name> --file req.txt
 ```
-Jeżeli nie masz karty graficznej nvidia ze wsparciem cuda, zainstaluj tensorflow oddzielnie
+Jeżeli nie masz karty graficznej nvidia ze wsparciem cuda, zainstaluj pytorch oddzielnie https://pytorch.org/get-started/locally/
 
 ### Przykład gry AI:
 
