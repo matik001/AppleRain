@@ -17,3 +17,4 @@ Jeżeli nie masz karty graficznej nvidia ze wsparciem cuda, zainstaluj tensorflo
 
 ### Przykład gry AI:
 
+https://user-images.githubusercontent.com/25119453/211150127-b5435e51-c114-42dd-bf6c-28e36db9bfa1.mp4
